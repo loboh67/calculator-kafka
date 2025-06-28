@@ -1,26 +1,41 @@
-# Distributed Calculator Service
+# WIT Calculator API
 
-This project implements a distributed calculator using Spring Boot and Kafka. It consists of two microservices:
+Uma API RESTful para operações aritméticas básicas com comunicação assíncrona via Kafka.
 
-- **REST Service**: Exposes an HTTP API to receive calculation requests from clients.
-- **Calculator Service**: Consumes calculation requests from Kafka, performs the computation, and sends back the result.
+## 🚀 Como correr o projeto
 
----
+### Pré-requisitos
 
-## 🧱 Architecture
-Client → REST API → Kafka Topic → Calculator Service → Kafka Response → REST API (response)
+- Docker e Docker Compose instalados
+- Java 21
 
-Each HTTP request is assigned a unique `requestId` which is propagated throughout the system using MDC for traceability.
 
----
+### Subir a infraestrutura (Kafka + Zookeeper)
+```bash
+cd docker
+docker-compuse up -d
+```
 
-## 🚀 Features
+### Correr os serviços Calculator e REST
+```bash
+./gradlew :calculator:bootRun
+./gradlew :rest:bootRun
+```
 
-- Supports `sum`, `subtract`, `multiply`, and `divide`
-- Uses Kafka for asynchronous request/response communication
-- MDC-based logging with `requestId` tracking
-- Includes unit tests 
+## Testar a API
 
----
+Exemplo de request com curl:
+```bash
+curl -i "http://localhost:8080/sum?a=2&b=2"   
+```
 
-## 📦 Project Structure
+Exemplo de resposta:
+```bash
+HTTP/1.1 200 
+X-Request-ID: 1a833eb9-f59b-45e2-a5ff-fc4a7783a30f
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sat, 28 Jun 2025 14:22:31 GMT
+
+{"result":4}
+```

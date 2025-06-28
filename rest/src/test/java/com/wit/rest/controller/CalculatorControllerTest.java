@@ -63,6 +63,7 @@ public class CalculatorControllerTest {
         assertThat(response.getBody()).isEqualTo(Map.of("error", "Cannot divide by zero"));
     }
 
+    @SuppressWarnings("null")
     @Test
     void testTimeout() throws Exception {
         when(resultListener.waitForResult(anyString()))
